@@ -1,0 +1,198 @@
+Task 3: Define Main Collections in JSON Format (10 pts)
+Design Notes (for the engineer taking over this database)
+This database supports a College Event Planning system. The schema uses a hybrid embedding strategy:
+Small, bounded subdocuments (officers, RSVPs, submissions) are embedded to avoid unnecessary joins and because they are always accessed with their parent.
+Cross-collection relationships use student_id, club_id, etc. as manual references (not DBRefs), which is standard for MongoDB at this scale.
+Recommended indexes: student_id on Student, club_id on Event, email fields across all collections for lookup performance.
+
+Collection 1: Club Collection
+// Example 1: An active club with officers and members
+{
+  "_id": ObjectId("507f1f77bcf86cd799439011"), // MongoDB auto-generated primary key
+  "club_id": 1,                                 // Human-readable ID for cross-collection references
+  "name": "Computer Science Society",
+  "category": "academic",                       // Possible values: "academic", "cultural", "sports", "social"
+  "description": "A club for CS students to collaborate on projects",
+  "member_count": 45,                           // Denormalized count — update whenever members array changes
+  "officers": [
+    // Embedded subdocument: officers are a small, bounded list, always fetched with the club
+    {
+      "officer_id": 101,
+      "email": "alice.johnson@university.edu",  // Duplicated from Student for fast lookups without a join
+      "role": "president"                       // Possible values: "president", "vice_president", "treasurer", "secretary"
+    },
+    {
+      "officer_id": 102,
+      "email": "bob.smith@university.edu",
+      "role": "treasurer"
+    }
+  ],
+  "members": [
+    // Embedded subdocument: keeps membership context (role, join date) together with the club
+    {
+      "membership_id": 1001,
+      "student_id": 1,       // References Student.student_id
+      "role": "member",      // Possible values: "member", "officer"
+      "joined_date": ISODate("2025-09-01T00:00:00Z")
+    },
+    {
+      "membership_id": 1002,
+      "student_id": 2,
+      "role": "member",
+      "joined_date": ISODate("2025-09-15T00:00:00Z")
+    }
+  ]
+}
+
+// Example 2: A newly created club with no members yet
+{
+  "_id": ObjectId("507f1f77bcf86cd799439021"),
+  "club_id": 2,
+  "name": "Photography Club",
+  "category": "social",
+  "description": "A space for students passionate about photography and visual storytelling",
+  "member_count": 0,    // Starts at 0 — no members have joined yet
+  "officers": [],       // No officers assigned at creation time
+  "members": []         // Empty on initialization; populated as students join
+}
+
+
+Collection 2: Event Collection
+// Example 1: An active, approved event with RSVPs
+{
+  "_id": ObjectId("507f1f77bcf86cd799439012"),
+  "event_id": 1,
+  "club_id": 1,          // References Club.club_id — identifies which club is hosting
+  "title": "Intro to Machine Learning Workshop",
+  "datetime": ISODate("2026-04-15T18:00:00Z"),
+  "location": "Engineering Building Room 302",
+  "capacity": 50,        // Max number of attendees allowed; compare against rsvps array length
+  "type": "academic",    // Possible values: "academic", "social", "fundraiser", "cultural"
+  "is_active": true,     // false = cancelled or past events; used to filter active listings
+  "rsvps": [
+    // Embedded: RSVPs are tightly coupled to the event and always queried together
+    {
+      "rsvp_id": 2001,
+      "student_id": 1,          // References Student.student_id
+      "status": "confirmed",    // Possible values: "confirmed", "waitlisted", "cancelled"
+      "timestamp": ISODate("2026-04-01T10:30:00Z")
+    },
+    {
+      "rsvp_id": 2002,
+      "student_id": 2,
+      "status": "waitlisted",   // Student RSVPd after capacity was reached
+      "timestamp": ISODate("2026-04-02T09:00:00Z")
+    }
+  ],
+  "submissions": [
+    // Embedded: tracks the admin approval workflow for this event proposal
+    {
+      "submission_id": 3001,
+      "submitted_by": 101,                          // References Officer.officer_id (from Club)
+      "reviewed_by": 201,                           // References Admin.admin_id
+      "status": "approved",                         // Possible values: "pending", "approved", "rejected"
+      "submitted_date": ISODate("2026-03-20T12:00:00Z"),
+      "review_notes": "Looks good — approved for Engineering Building."
+    }
+  ]
+}
+
+// Example 2: A pending event that hasn't been approved yet, with no RSVPs
+{
+  "_id": ObjectId("507f1f77bcf86cd799439022"),
+  "event_id": 2,
+  "club_id": 2,
+  "title": "Campus Photography Walk",
+  "datetime": ISODate("2026-05-01T14:00:00Z"),
+  "location": "Main Quad",
+  "capacity": 20,
+  "type": "social",
+  "is_active": false,    // Not yet active — pending admin approval before going live
+  "rsvps": [],           // No RSVPs until event is approved and published
+  "submissions": [
+    {
+      "submission_id": 3002,
+      "submitted_by": 103,
+      "reviewed_by": null,                          // null = not yet reviewed by an admin
+      "status": "pending",
+      "submitted_date": ISODate("2026-03-25T10:00:00Z"),
+      "review_notes": ""                            // Empty until admin leaves feedback
+    }
+  ]
+}
+
+
+Collection 3: Student Collection
+// Example 1: A junior student with a declared major
+{
+  "_id": ObjectId("507f1f77bcf86cd799439013"),
+  "student_id": 1,                              // Used as foreign key in Club.members and Event.rsvps
+  "name": "Alice Johnson",
+  "email": "alice.johnson@university.edu",      // Should be unique; recommend unique index on this field
+  "year": "junior",                             // Possible values: "freshman", "sophomore", "junior", "senior"
+  "major": "Computer Science"
+}
+
+// Example 2: A freshman who hasn't declared a major yet
+{
+  "_id": ObjectId("507f1f77bcf86cd799439023"),
+  "student_id": 2,
+  "name": "Marcus Lee",
+  "email": "marcus.lee@university.edu",
+  "year": "freshman",
+  "major": null    // null = undeclared; update once student selects a major
+}
+
+
+Collection 4: Admin Collection
+// Example 1: A Student Affairs admin who reviews event submissions
+{
+  "_id": ObjectId("507f1f77bcf86cd799439014"),
+  "admin_id": 201,                              // Used as foreign key in Event.submissions.reviewed_by
+  "email": "admin.carter@university.edu",       // Recommend unique index on email
+  "department": "Student Affairs",              // Department determines which events they oversee
+  "name": "Jane Carter"
+}
+
+// Example 2: An admin from a different department
+{
+  "_id": ObjectId("507f1f77bcf86cd799439024"),
+  "admin_id": 202,
+  "email": "admin.patel@university.edu",
+  "department": "Campus Events",               // Different department — may have different approval scope
+  "name": "Raj Patel"
+}
+
+Read me: 
+
+# University Club Management System: Upgrading to a MongoDB Database
+
+## What is this project all about?
+This project is a complete redesign of a university club tracking system. Originally, this system was built using a traditional, old-school database (SQL). In that older version, information was scattered across many different, separate tables. For example, to find out which club a student was in, the database had to constantly play connect-the-dots between a "Student" table, a "Membership" table, and a "Club" table. 
+
+The goal of this project was to upgrade that system to a modern, document-based database called **MongoDB**. 
+
+Instead of scattering the data, a document database allows us to store related information together in one place. By grouping the data logically—like putting a student's club memberships directly inside their personal file—we make the database much faster and easier for the computer to read. 
+
+## How We Organized the Data
+We took 8 separate lists of information and reorganized them into 4 main "Folders" or Collections:
+
+1. **Clubs:** This holds the main details of the club (like its name and category) and also directly lists the officers who run it. 
+2. **Students:** This contains the student's personal information (major, graduation year) and a list of all the clubs they are a member of.
+3. **Events:** This is the most detailed file. It holds the event details, the administrative approval status for that event, and a full list of every student who has RSVP'd to attend.
+4. **Admins:** A separate list for the university staff who are responsible for approving or rejecting event requests.
+
+## What is Included in this Repository
+* **The Blueprint:** We have included the exact templates (called JSON schemas) that show how our new data files are structured and organized. 
+* **Sample Data:** A database isn't very helpful if it's empty! We used a tool called Mockaroo to generate hundreds of realistic, fake students, clubs, and events to fully test our new system. The files to load this data are included in the `/data` folder.
+* **Database Commands (Queries):** We wrote out specific instructions to prove the new database works. These include commands to calculate total event capacities, find specific types of clubs, count how many events a single student is attending, and update a student's RSVP status.
+* **A Mini Web Application:** We built a basic web server using Node.js. This allows a user to actually interact with our database from a web browser to view, add, update, or delete information.
+
+## Tools and Technology Used
+* **MongoDB & MongoDB Compass:** The main software used to build and view our new document database.
+* **Node.js & Express.js:** The programming languages used to build the backend web server.
+* **Mockaroo:** A website used to generate the realistic test data.
+* **LucidChart:** Used to draw the original maps and diagrams of the system.
+
+---
+*This project was developed as a hands-on practicum for Database Architecture.*
