@@ -1,0 +1,390 @@
+[{
+  "_id": {
+    "$oid": "69c893a1e8bb0d6e2d691e8e"
+  },
+  "club_id": 1,
+  "name": "Computer Science Club",
+  "category": "academic",
+  "description": "A club for students interested in computer science and programming",
+  "member_count": 45,
+  "faculty_advisor": {
+    "admin_id": 1,
+    "name": "Dr. Sarah Johnson",
+    "email": "s.johnson@northeastern.edu",
+    "role": "faculty_advisor",
+    "department": "Khoury College of Computer Sciences",
+    "phone": "617-373-2501"
+  },
+  "members": [
+    {
+      "student_id": 1,
+      "name": "Alice Johnson",
+      "email": "johnson.a@northeastern.edu",
+      "major": "Computer Science",
+      "year": "junior",
+      "joined_date": "2024-09-01",
+      "phone": "617-555-0101"
+    },
+    {
+      "student_id": 2,
+      "name": "Bob Smith",
+      "email": "smith.b@northeastern.edu",
+      "major": "Data Science",
+      "year": "sophomore",
+      "joined_date": "2024-09-01",
+      "phone": "617-555-0102"
+    }
+  ],
+  "events": [
+    {
+      "event_id": 1,
+      "title": "Hackathon 2025",
+      "datetime": "2025-03-15T09:00:00Z",
+      "location": "Shillman Hall 105",
+      "capacity": 100,
+      "type": "academic",
+      "is_active": true,
+      "submission": {
+        "submission_id": 1,
+        "submitted_by": {
+          "student_id": 1,
+          "name": "Alice Johnson",
+          "email": "johnson.a@northeastern.edu",
+          "major": "Computer Science",
+          "year": "junior"
+        },
+        "reviewed_by": {
+          "admin_id": 1,
+          "name": "Dr. Sarah Johnson",
+          "email": "s.johnson@northeastern.edu",
+          "role": "faculty_advisor",
+          "department": "Khoury College of Computer Sciences"
+        },
+        "status": "approved",
+        "submitted_date": "2025-01-10",
+        "review_notes": "Looks great, approved!"
+      },
+      "rsvps": [
+        {
+          "rsvp_id": 1,
+          "student": {
+            "student_id": 1,
+            "name": "Alice Johnson",
+            "email": "johnson.a@northeastern.edu",
+            "major": "Computer Science",
+            "year": "junior",
+            "phone": "617-555-0101"
+          },
+          "status": "confirmed",
+          "timestamp": "2025-02-01T10:00:00Z"
+        },
+        {
+          "rsvp_id": 2,
+          "student": {
+            "student_id": 2,
+            "name": "Bob Smith",
+            "email": "smith.b@northeastern.edu",
+            "major": "Data Science",
+            "year": "sophomore",
+            "phone": "617-555-0102"
+          },
+          "status": "confirmed",
+          "timestamp": "2025-02-02T11:00:00Z"
+        }
+      ]
+    },
+    {
+      "event_id": 2,
+      "title": "Python Workshop",
+      "datetime": "2025-04-20T14:00:00Z",
+      "location": "West Village H 108",
+      "capacity": 50,
+      "type": "academic",
+      "is_active": true,
+      "submission": {
+        "submission_id": 2,
+        "submitted_by": {
+          "student_id": 1,
+          "name": "Alice Johnson",
+          "email": "johnson.a@northeastern.edu",
+          "major": "Computer Science",
+          "year": "junior"
+        },
+        "reviewed_by": null,
+        "status": "pending",
+        "submitted_date": "2025-02-15",
+        "review_notes": null
+      },
+      "rsvps": []
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "69c893a1e8bb0d6e2d691e8f"
+  },
+  "club_id": 2,
+  "name": "Cultural Fusion",
+  "category": "cultural",
+  "description": "Celebrating diversity through food, music, and events",
+  "member_count": 32,
+  "faculty_advisor": {
+    "admin_id": 1,
+    "name": "Dr. Sarah Johnson",
+    "email": "s.johnson@northeastern.edu",
+    "role": "faculty_advisor",
+    "department": "Khoury College of Computer Sciences",
+    "phone": "617-373-2501"
+  },
+  "members": [
+    {
+      "student_id": 3,
+      "name": "Carol White",
+      "email": "white.c@northeastern.edu",
+      "major": "Business Administration",
+      "year": "senior",
+      "joined_date": "2023-09-01",
+      "phone": "617-555-0103"
+    },
+    {
+      "student_id": 4,
+      "name": "David Lee",
+      "email": "lee.d@northeastern.edu",
+      "major": "International Affairs",
+      "year": "sophomore",
+      "joined_date": "2024-09-01",
+      "phone": "617-555-0104"
+    }
+  ],
+  "events": [
+    {
+      "event_id": 3,
+      "title": "International Food Festival",
+      "datetime": "2025-04-01T12:00:00Z",
+      "location": "Curry Student Center",
+      "capacity": 200,
+      "type": "social",
+      "is_active": true,
+      "submission": {
+        "submission_id": 3,
+        "submitted_by": {
+          "student_id": 3,
+          "name": "Carol White",
+          "email": "white.c@northeastern.edu",
+          "major": "Business Administration",
+          "year": "senior"
+        },
+        "reviewed_by": {
+          "admin_id": 1,
+          "name": "Dr. Sarah Johnson",
+          "email": "s.johnson@northeastern.edu",
+          "role": "faculty_advisor",
+          "department": "Khoury College of Computer Sciences"
+        },
+        "status": "approved",
+        "submitted_date": "2025-01-12",
+        "review_notes": "Approved. Ensure food safety guidelines are followed."
+      },
+      "rsvps": [
+        {
+          "rsvp_id": 3,
+          "student": {
+            "student_id": 3,
+            "name": "Carol White",
+            "email": "white.c@northeastern.edu",
+            "major": "Business Administration",
+            "year": "senior",
+            "phone": "617-555-0103"
+          },
+          "status": "confirmed",
+          "timestamp": "2025-02-03T09:00:00Z"
+        },
+        {
+          "rsvp_id": 4,
+          "student": {
+            "student_id": 4,
+            "name": "David Lee",
+            "email": "lee.d@northeastern.edu",
+            "major": "International Affairs",
+            "year": "sophomore",
+            "phone": "617-555-0104"
+          },
+          "status": "confirmed",
+          "timestamp": "2025-02-05T14:30:00Z"
+        }
+      ]
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "69c893a1e8bb0d6e2d691e90"
+  },
+  "club_id": 3,
+  "name": "Robotics Society",
+  "category": "academic",
+  "description": "Building robots and competing in national competitions",
+  "member_count": 28,
+  "faculty_advisor": {
+    "admin_id": 2,
+    "name": "Michael Chen",
+    "email": "m.chen@northeastern.edu",
+    "role": "student_activities_coordinator",
+    "department": "Student Life",
+    "phone": "617-373-2502"
+  },
+  "members": [
+    {
+      "student_id": 5,
+      "name": "Emily Chen",
+      "email": "chen.e@northeastern.edu",
+      "major": "Mechanical Engineering",
+      "year": "junior",
+      "joined_date": "2023-09-01",
+      "phone": "617-555-0105"
+    }
+  ],
+  "events": [
+    {
+      "event_id": 4,
+      "title": "Robot Demo Day",
+      "datetime": "2025-05-10T15:00:00Z",
+      "location": "Engineering Lab 201",
+      "capacity": 75,
+      "type": "academic",
+      "is_active": true,
+      "submission": {
+        "submission_id": 4,
+        "submitted_by": {
+          "student_id": 5,
+          "name": "Emily Chen",
+          "email": "chen.e@northeastern.edu",
+          "major": "Mechanical Engineering",
+          "year": "junior"
+        },
+        "reviewed_by": {
+          "admin_id": 2,
+          "name": "Michael Chen",
+          "email": "m.chen@northeastern.edu",
+          "role": "student_activities_coordinator",
+          "department": "Student Life"
+        },
+        "status": "approved",
+        "submitted_date": "2025-02-01",
+        "review_notes": "Great event idea"
+      },
+      "rsvps": [
+        {
+          "rsvp_id": 5,
+          "student": {
+            "student_id": 5,
+            "name": "Emily Chen",
+            "email": "chen.e@northeastern.edu",
+            "major": "Mechanical Engineering",
+            "year": "junior",
+            "phone": "617-555-0105"
+          },
+          "status": "confirmed",
+          "timestamp": "2025-02-10T12:00:00Z"
+        }
+      ]
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "69c893a1e8bb0d6e2d691e91"
+  },
+  "club_id": 4,
+  "name": "Environmental Action",
+  "category": "service",
+  "description": "Promoting sustainability and environmental awareness on campus",
+  "member_count": 52,
+  "faculty_advisor": {
+    "admin_id": 1,
+    "name": "Dr. Sarah Johnson",
+    "email": "s.johnson@northeastern.edu",
+    "role": "faculty_advisor",
+    "department": "Khoury College of Computer Sciences",
+    "phone": "617-373-2501"
+  },
+  "members": [
+    {
+      "student_id": 6,
+      "name": "Frank Martinez",
+      "email": "martinez.f@northeastern.edu",
+      "major": "Environmental Science",
+      "year": "senior",
+      "joined_date": "2022-09-01",
+      "phone": "617-555-0106"
+    },
+    {
+      "student_id": 7,
+      "name": "Grace Kim",
+      "email": "kim.g@northeastern.edu",
+      "major": "Biology",
+      "year": "freshman",
+      "joined_date": "2025-09-01",
+      "phone": "617-555-0107"
+    }
+  ],
+  "events": [
+    {
+      "event_id": 5,
+      "title": "Beach Cleanup",
+      "datetime": "2025-04-22T10:00:00Z",
+      "location": "Revere Beach",
+      "capacity": 60,
+      "type": "fundraiser",
+      "is_active": true,
+      "submission": {
+        "submission_id": 5,
+        "submitted_by": {
+          "student_id": 6,
+          "name": "Frank Martinez",
+          "email": "martinez.f@northeastern.edu",
+          "major": "Environmental Science",
+          "year": "senior"
+        },
+        "reviewed_by": {
+          "admin_id": 1,
+          "name": "Dr. Sarah Johnson",
+          "email": "s.johnson@northeastern.edu",
+          "role": "faculty_advisor",
+          "department": "Khoury College of Computer Sciences"
+        },
+        "status": "approved",
+        "submitted_date": "2025-01-20",
+        "review_notes": "Perfect for Earth Day"
+      },
+      "rsvps": [
+        {
+          "rsvp_id": 6,
+          "student": {
+            "student_id": 6,
+            "name": "Frank Martinez",
+            "email": "martinez.f@northeastern.edu",
+            "major": "Environmental Science",
+            "year": "senior",
+            "phone": "617-555-0106"
+          },
+          "status": "confirmed",
+          "timestamp": "2025-02-12T08:00:00Z"
+        },
+        {
+          "rsvp_id": 7,
+          "student": {
+            "student_id": 7,
+            "name": "Grace Kim",
+            "email": "kim.g@northeastern.edu",
+            "major": "Biology",
+            "year": "freshman",
+            "phone": "617-555-0107"
+          },
+          "status": "waitlisted",
+          "timestamp": "2025-02-15T16:30:00Z"
+        }
+      ]
+    }
+  ]
+}]
