@@ -1,5 +1,5 @@
-Task 3: Define Main Collections in JSON Format (10 pts)
-Design Notes (for the engineer taking over this database)
+Task 3: Define Main Collections in JSON Format 
+Design Notes
 This database supports a College Event Planning system. The schema uses a hybrid embedding strategy:
 Small, bounded subdocuments (officers, RSVPs, submissions) are embedded to avoid unnecessary joins and because they are always accessed with their parent.
 Cross-collection relationships use student_id, club_id, etc. as manual references (not DBRefs), which is standard for MongoDB at this scale.
