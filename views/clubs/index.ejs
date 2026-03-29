@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head><title>Clubs</title></head>
+  <body>
+    <h1>Clubs</h1>
+    <a href="/clubs/new">New Club</a> | <a href="/users">View Users</a>
+    <ul>
+      <% clubs.forEach(c => { %>
+        <li>
+          <strong><%= c.name %></strong> - <%= c.category %> - <%= c.member_count %> members
+          <a href="/clubs/<%= c._id %>/edit">Edit</a>
+          <form action="/clubs/<%= c._id %>?_method=DELETE" method="POST" style="display:inline;">
+            <button type="submit">Delete</button>
+          </form>
+        </li>
+      <% }) %>
+    </ul>
+  </body>
+</html>
