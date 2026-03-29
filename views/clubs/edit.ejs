@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head><title>Edit Club</title></head>
+  <body>
+    <h1>Edit Club</h1>
+    <form action="/clubs/<%= club._id %>?_method=PUT" method="POST">
+      <label>Name: <input type="text" name="name" value="<%= club.name %>"></label><br>
+      <label>Category: <input type="text" name="category" value="<%= club.category %>"></label><br>
+      <label>Description: <input type="text" name="description" value="<%= club.description %>"></label><br>
+      <label>Member Count: <input type="number" name="member_count" value="<%= club.member_count %>"></label><br>
+      <button type="submit">Update</button>
+    </form>
+    <a href="/clubs">Back</a>
+  </body>
+</html>
